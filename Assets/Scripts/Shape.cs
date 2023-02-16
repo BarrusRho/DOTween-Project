@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 
@@ -19,5 +21,25 @@ public class Shape : MonoBehaviour
     public void Move()
     {
         transform.DOMoveX(10, 2).SetSpeedBased(true);
+    }
+
+    public IEnumerator RotateForSeconds(float duration)
+    {
+        var end = Time.time + duration;
+        while (Time.time < end)
+        {
+            transform.Rotate(new Vector3(1, 1) * Time.deltaTime * 150);
+            yield return null;
+        }
+    }
+    
+    public async Task RotateForSecondsAsync(float duration)
+    {
+        var end = Time.time + duration;
+        while (Time.time < end)
+        {
+            transform.Rotate(new Vector3(1, 1) * Time.deltaTime * 150);
+            await Task.Yield();
+        }
     }
 }
